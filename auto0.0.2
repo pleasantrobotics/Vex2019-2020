@@ -1,0 +1,64 @@
+#include "robot-config.h"
+using namespace vex;
+
+int display(){
+    while(1){
+    if (Brain.Battery.capacity() < 10) {
+        Brain.Screen.setOrigin(125,100);
+        Brain.Screen.setFont(fontType::prop40);
+        Brain.Screen.print("AUTO");
+        Brain.Screen.newLine();
+        Brain.Screen.print("LOW BATTERY!");
+        }
+    else {
+        Brain.Screen.setOrigin(100,100);
+        Brain.Screen.setFont(fontType::prop30);
+        Brain.Screen.print("AUTO");
+        Brain.Screen.newLine();
+        Brain.Screen.print("Battery percentage: ");
+        Brain.Screen.print(Brain.Battery.capacity());
+        }
+    }
+}
+
+int autoprogram(){
+    while(1){
+        LeftMotor.rotateFor(2, timeUnits::sec, 50, velocityUnits::pct);
+        RightMotor.rotateFor(2, timeUnits::sec, 50, velocityUnits::pct);
+        LeftFrontMotor.rotateFor(2, timeUnits::sec, 50, velocityUnits::pct);
+        RightFrontMotor.rotateFor(2, timeUnits::sec, 50, velocityUnits::pct);
+        
+        MiddleMotor.rotateFor(1, timeUnits::sec, 100, velocityUnits::pct);
+        
+        lif
+    }
+    
+}
+
+int main() {
+    while(1){
+        display();
+        autoprogram();
+    }
+    
+    
+}
+
+/**************************************************/
+/*                  Robot-Config                  */
+/**************************************************/
+
+using namespace vex;
+
+#Define DRIVEMOTORS
+motor LeftMotor = motor(PORT1, gearSetting::ratio18_1, false);
+motor RightMotor = motor(PORT10, gearSetting::ratio18_1, true);
+motor LeftFrontMotor = motor(PORT2, gearSetting::ratio18_1, false);
+motor RightFrontMotor = motor(PORT9, gearSetting::ratio18_1, true);
+
+brain Brain;
+motor MiddleMotor = motor(PORT5, gearSetting::ratio18_1, true);
+motor LeftArmMotor = motor(PORT7, gearSetting::ratio18_1, false);
+motor RightArmMotor = motor(PORT8, gearSetting::ratio18_1, true);
+
+controller Controller1 = controller();
