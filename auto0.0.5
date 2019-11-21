@@ -1,0 +1,111 @@
+#include "robot-config.h"
+using namespace vex;
+
+int display(){
+    while(1){
+    if (Brain.Battery.capacity() < 10) {
+        Brain.Screen.setOrigin(125,100);
+        Brain.Screen.setFont(fontType::prop40);
+        Brain.Screen.print("AUTO");
+        Brain.Screen.newLine();
+        Brain.Screen.print("LOW BATTERY!");
+        }
+    else {
+        Brain.Screen.setOrigin(100,100);
+        Brain.Screen.setFont(fontType::prop30);
+        Brain.Screen.print("AUTO");
+        Brain.Screen.newLine();
+        Brain.Screen.print("Battery percentage: ");
+        Brain.Screen.print(Brain.Battery.capacity());
+        }
+    }
+}
+
+int drive1(){
+    LeftMotor.rotateFor(1, timeUnits::sec, 50, velocityUnits::pct);
+    RightMotor.rotateFor(1, timeUnits::sec, 50, velocityUnits::pct);
+    LeftFrontMotor.rotateFor(1, timeUnits::sec, 50, velocityUnits::pct);
+    RightFrontMotor.rotateFor(1, timeUnits::sec, 50, velocityUnits::pct);
+}
+
+int turn2(){
+    LeftMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+    LeftFrontMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+    RightMotor.rotateFor(2, timeUnits::sec, -100, velocityUnits::pct);
+    RightFrontMotor.rotateFor(2, timeUnits::sec, -100, velocityUnits::pct);
+}
+
+int middledrive2(){
+    MiddleMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+}
+
+int raisearms2(){
+    LeftArmMotor.rotateFor(2 timeUnits::sec, 100, velocityUnits::pct);
+    RightArmMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+}
+
+int lowerarmsgrab2();{
+    LeftArmMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+    RightArmMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+    GrabMotor.rotateFor(2, timeUnits::sec, 100, velocityUnits::pct);
+}
+
+int middledrive3negative(){
+    MiddleMotor.rotateFor(3, timeUnits::sec, -100, velocityUnits::pct);
+}
+
+int raisearmsdrop31(){
+    LeftArmMotor.rotateFor(3, timeUnits::sec, -100, velocityUnits::pct);
+    RightArmMotor.rotateFor(3, timeUnits::sec, -100, velocityUnits::pct);
+    GrabMotor.rotateFor(1, timeUnits::sec, -100, velocityUnits::pct);
+}
+
+int autoprogram(){
+    while(1){
+        
+        middledrive2();
+        raisearms2();
+        drive1();
+        lowerarmsgrab2();
+        turn2();
+        drive1();
+        middledrive3negative();
+        drive1();
+        raisearmsdrop31();
+        
+    }
+}
+/*******************************/
+
+int main() {
+    while(1){
+        display();
+        autoprogram();
+        task::sleep(20);
+    }    
+}
+
+/*******************************/
+
+/* DevNote: Not sure why I added the note formatting above... lol */
+
+/**************************************************/
+/*                  Robot-Config                  */
+/**************************************************/
+
+using namespace vex;
+
+brain Brain;
+
+motor LeftMotor = motor(PORT1, gearSetting::ratio18_1, false);
+motor RightMotor = motor(PORT10, gearSetting::ratio18_1, true);
+motor LeftFrontMotor = motor(PORT2, gearSetting::ratio18_1, false);
+motor RightFrontMotor = motor(PORT9, gearSetting::ratio18_1, true);
+motor MiddleMotor = motor(PORT5, gearSetting::ratio18_1, true);
+motor LeftArmMotor = motor(PORT7, gearSetting::ratio18_1, false);
+motor RightArmMotor = motor(PORT8, gearSetting::ratio18_1, true);
+
+//ADD TO OTHER PROGRAMS (postNote: solved)
+motor GrabMotor = motor(PORT6, gearSetting::ratio18_1, true);
+
+controller Controller1 = controller();
